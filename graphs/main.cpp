@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
 #include "graphsAdjList.h"
+
+
 int main() {
 	graphsAdjList<int> g;
 	g.addNode(node<int>(10));
@@ -17,8 +19,12 @@ int main() {
 	g.connectNodes(3,2,7);
 	g.connectNodes(6,2,6);
 	g.connectNodes(7,4,4);
-	g.print();
+	//g.print();
+	g.depthFirstTraverse();
 	int x;
 	cin >> x;
 	return  0;
 }
+
+
+

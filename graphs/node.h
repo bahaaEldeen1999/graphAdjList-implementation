@@ -1,11 +1,14 @@
 #pragma once
 #include <iostream>
+#include "graphsAdjList.h"
 using namespace std;
 #include  <vector>
 
 template<class t>
 class node
 {
+	template<class t>
+	friend class graphsAdjList;
 	struct nodeAndWeights;
 	vector<nodeAndWeights> neighbours;
 	t val;
@@ -15,6 +18,8 @@ public:
 	node();
 	void addNeighbour(node<t> &n,int w,int ind);
 	void printNeighbours();
+	vector<node<t>::nodeAndWeights> getNeighbours();
+	int getNoOfNeighbours();
 };
 
 template<class t>
@@ -74,3 +79,15 @@ template<class t>
 		cout << "index of node : "<< neighbours[i].ind+1 << " has a value :  " << (neighbours[i].n)->val << " and the weight connected them is "  << neighbours[i].w << endl;
 	}
 }
+
+ template<class t>
+ vector<typename node<t>::nodeAndWeights> node<t>::getNeighbours()
+ {
+	 return neighbours;
+ }
+
+ template<class t>
+ inline int node<t>::getNoOfNeighbours()
+ {
+	 return noOfNeighbours;
+ }
