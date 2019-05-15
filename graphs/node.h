@@ -58,18 +58,9 @@ template<class t>
 template<class t>
  void node<t>::addNeighbour(node<t> &n,int w,int ind)
 {
-	//nodeAndWeights* newArr = new nodeAndWeights[noOfNeighbours+1];
-//	for (int i = 0; i < noOfNeighbours; i++) {
-//		newArr[i] = this->neighbours[i];
-	//}
+
 	nodeAndWeights pair(&n,w,ind);
-	//cout << pair.n->val << " " << pair.w << " " << pair.ind << endl;
 	neighbours.push_back(pair);
-	//cout <<"ne " << neighbours[noOfNeighbours].n->val << " " << neighbours[noOfNeighbours].w << " " << neighbours[noOfNeighbours].ind << endl;
-	//newArr[noOfNeighbours] = pair;
-	//delete[] this->neighbours;
-	//this->neighbours = newArr;
-	//delete[] newArr;
 	noOfNeighbours++;
 }
 
