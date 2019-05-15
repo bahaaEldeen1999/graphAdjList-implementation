@@ -20,6 +20,7 @@ public:
 	void printNeighbours();
 	vector<node<t>::nodeAndWeights> getNeighbours();
 	int getNoOfNeighbours();
+	t getVal();
 };
 
 template<class t>
@@ -90,4 +91,10 @@ template<class t>
  inline int node<t>::getNoOfNeighbours()
  {
 	 return noOfNeighbours;
+ }
+
+ template<class t>
+  t node<t>::getVal()
+ {
+	 return val;
  }
