@@ -5,6 +5,7 @@ using namespace std;
 
 int main() {
 	graphsAdjList<int> g;
+	/*
 	g.addNode(node<int>(1));
 	g.addNode(node<int>(2));
 	g.addNode(node<int>(3));
@@ -14,12 +15,22 @@ int main() {
 	g.addEdge(2,3);
 	g.addEdge(1,3);
 	g.addEdge(1,5);
-	//g.addEdge(1,2);
-	vector<int> ord;
-	ord = g.topSort();
-	for (int i = 0; i < ord.size(); i++) {
-		cout << ord[i]+1 << endl;
+	g.dfs(1);
+	*/
+	int n, m;
+	cin >> n >> m;
+	for (int i = 0; i < n; i++) {
+		g.addNode(node<int>(i));
+
 	}
+	for (int i = 0; i < m; i++) {
+		int x, y;
+		cin >> x >> y;
+		g.connectTwoNodes(x, y);
+	}
+	int u, v;
+	cin >> u >> v;
+	cout << "result " << g.areReachable(u, v) << endl;
 	int x;
 	cin >> x;
 	return  0;

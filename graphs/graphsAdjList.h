@@ -14,7 +14,13 @@ public:
 	void addNode(node<t> n);
 	void print();
 	vector<int> topSort();
-	void dfs(int at,vector<bool> &V,vector<int> &visitedNodes);
+	void topSortUtil(int at,vector<bool> &V,vector<int> &visitedNodes);
+	void dfsUtil(int n,vector<bool> &visited);
+	
+	void dfs(int node);
+	bool areReachable(int n1, int n2);
+	bool areReachableUtil(int n1,int n2, vector<bool> &visited,int &x);
+
 	
 };
 
@@ -71,7 +77,7 @@ template<typename t>
 	   for (int at = 0; at < N; at++) {
 		   if (!V[at]) {
 			   vector<int> visitedNodes;
-			   dfs(at, V, visitedNodes);
+			   topSortUtil(at, V, visitedNodes);
 			   for (int j = 0; j < visitedNodes.size(); j++) {
 				   ordering[i] = visitedNodes[j];
 				   i = i - 1;
@@ -82,15 +88,75 @@ template<typename t>
   }
 
    template<typename t>
-   inline void graphsAdjList<t>::dfs(int at,vector<bool> &V, vector<int>& visitedNodes)
+   inline void graphsAdjList<t>::topSortUtil(int at,vector<bool> &V, vector<int>& visitedNodes)
    {
 	   V[at] = true;
 	   vector<node<t>::nodeAndWeights> edges = nodes[at].getNeighbours();
 	   for (int j = 0; j < edges.size(); j++) {
 		   if (!V[edges[j].ind]) {
-			   dfs(edges[j].ind, V, visitedNodes);
+			   topSortUtil(edges[j].ind, V, visitedNodes);
 		   }
 	   }
 	   visitedNodes.push_back(at);
    }
+   template<typename t>
+   void graphsAdjList<t>::dfsUtil(int n, vector<bool>& visited)
+   {
 
+	   visited[n] = true;
+	   cout << "node with index " << n + 1 << " with value " << nodes[n].getVal() << endl;
+	  
+	  
+	   vector<node<t>::nodeAndWeights> edges = nodes[n].getNeighbours();
+
+	   for (int i = 0; i < edges.size(); i++) {
+		  if (!visited[edges[i].ind]) {
+			   dfsUtil(edges[i].ind, visited);
+		   }
+	 }
+   }
+
+	template<typename t>
+	 void graphsAdjList<t>::dfs(int node)
+	{
+		 vector<bool> visited(noOfNodes,0);
+		 node--;
+		 dfsUtil(node, visited);
+	}
+
+	 template<typename t>
+	 bool graphsAdjList<t>::areReachable(int n1, int n2)
+	 {
+		 vector<bool> visited(noOfNodes, 0);
+		 n1--;
+		 n2--;
+		 int x = 0;
+		 return areReachableUtil(n1, n2, visited, x);
+
+		  
+	 }
+
+	 template<typename t>
+	 bool graphsAdjList<t>::areReachableUtil(int n1, int n2, vector<bool>& visited,int &x)
+	 {
+		 visited[n1] = true;
+		
+		 if ( n1 == n2 ) {
+			 
+			 x = 1;
+		 }
+
+
+		 vector<node<t>::nodeAndWeights> edges = nodes[n1].getNeighbours();
+
+		 for (int i = 0; i < edges.size(); i++) {
+			 if (!visited[edges[i].ind] && !x) {
+				 areReachableUtil(edges[i].ind,n2, visited,x);
+			 }
+		 }
+		 return x;
+
+	 }
+
+
+	
