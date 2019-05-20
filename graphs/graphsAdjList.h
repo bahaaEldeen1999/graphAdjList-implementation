@@ -1,6 +1,6 @@
 #pragma once
 #include "node.h"
-
+#include <set>
 template<typename t>
 class graphsAdjList
 {
@@ -9,17 +9,24 @@ class graphsAdjList
 	int currIndex;
 public:
 	graphsAdjList();
-	void addEdge(int n1,int n2,int w = 0);
-	void connectTwoNodes(int n1,int n2,int w = 0);
+	void addEdge(int n1,int n2,int w = 0); // directed 
+	void connectTwoNodes(int n1,int n2,int w = 0); // undirected
 	void addNode(node<t> n);
 	void print();
+	// topology sort
 	vector<int> topSort();
 	void topSortUtil(int at,vector<bool> &V,vector<int> &visitedNodes);
+	// depth first search
 	void dfsUtil(int n,vector<bool> &visited);
-	
 	void dfs(int node);
+	// are the 2 nodes reachable 
 	bool areReachable(int n1, int n2);
 	bool areReachableUtil(int n1,int n2, vector<bool> &visited,int &x);
+	// count number of connected component
+	int countConnectedComponents();
+	void countConnectedComponents(set<int> &s,int node, vector<bool> &visited);
+
+
 
 	
 };
@@ -156,6 +163,34 @@ template<typename t>
 		 }
 		 return x;
 
+	 }
+
+	 template<typename t>
+	  int graphsAdjList<t>::countConnectedComponents()
+	 {
+		  int x = 0;
+		  set<int> s;
+		  vector<bool> v(noOfNodes, false);
+		  for (int i = 0; i < nodes.size(); i++) {
+			  if (s.insert(i).second) {
+				  x++;
+				  countConnectedComponents(s,i,v);
+			  }
+		  }
+		 return x;
+	 }
+
+	 template<typename t>
+	  void graphsAdjList<t>::countConnectedComponents(set<int> &s,int n, vector<bool> &visited)
+	 {
+		  visited[n] = true;
+		  vector<node<t>::nodeAndWeights> edges = nodes[n].getNeighbours();
+		  for (int i = 0; i < edges.size(); i++) {
+			  if (!visited[edges[i].ind]) {
+				  s.insert(edges[i].ind);
+				  countConnectedComponents(s,edges[i].ind, visited);
+			  }
+		  }
 	 }
 
 
